@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.10/examples/signin/signin.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(function (){
+        })
+        function abc(){
+            var id = $("#inputEmail").val();
+            var amount = $("#inputPassword").val();
+            if (id == null || id.toString().length < 1){
+                $("#message").text("id不能为空");
+                return;
+            }
+            if (amount == null || amount.toString().length < 1){
+                $("#message").text("数量不能为空");
+                return;
+            }
+            $.ajax({
+                url : "user/buy.do",
+                method : "post",
+                data : {
+                    "id" : id,
+                    "amount" : amount
+                },
+                resultType : "json",
+                success : function (resp){
+                    if (resp.success){
+                        window.location.href = "manager";
+                    }else {
+                        $("#message").text(resp);
+                    }
+                }
+            })
+        }
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+    <form method="post" action="buy.do" class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text" name="id" id="inputEmail" class="form-control" placeholder="商品id" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="text" name="amount" id="inputPassword" class="form-control" placeholder="购买数量" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+                <span id="message"></span>
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="abc()">Sign in</button>
+    </form>
+    </div>
+</body>
+</html>
